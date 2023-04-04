@@ -4,6 +4,8 @@ class ScoreScreens {
   JSONArray infos;
   ArrayList<Score> scoreList;
   PFont font;
+  boolean isHigh;
+  boolean isTop;
 
   ScoreScreens() {
     infos = loadJSONArray("player_data.json");
@@ -11,6 +13,8 @@ class ScoreScreens {
     convert();
     font = createFont("RetroGaming.ttf", 20);
     textFont(font);
+    isHigh = false;
+    isTop = false;
   }
 
   void convert() {
@@ -47,8 +51,19 @@ class ScoreScreens {
     }
     if (index == scoreList.size()) {
       popScore();
+      isHigh = false;
+      isTop = false;
+      
     } else {
       scoreList.add(index, scoreObj);
+      if (index == 0) {
+        isHigh = true;
+      } else {
+        isHigh = false;
+      }
+      isTop = true;
+      
+      
     }
     
   }

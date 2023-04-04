@@ -9,10 +9,16 @@ void setup() {
 }
 
 void draw() {
-  background(255);
+  background(0);
   start_screen.display();
 }
 
 void keyPressed() {
-  start_screen.keyPressed();
+  if (start_screen.atStart()) {
+    start_screen.keyPressed();
+  }
+  else {
+    // Game commands
+  }
+  
 }

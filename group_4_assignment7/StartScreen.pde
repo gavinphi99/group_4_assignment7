@@ -51,6 +51,7 @@ class StartScreen extends ScoreScreens {
   
   
   void keyPressed() {
+    println("start screen registered key pressed");
     if (key == '\b') {
       inputPlayer = inputPlayer.substring(0, inputPlayer.length() - 1);
     } else if (keyCode == ENTER) {
@@ -61,8 +62,15 @@ class StartScreen extends ScoreScreens {
     } else {
       inputPlayer += "";
     }
+    
+    //TODO: this probably shouldn't be contained here, but just testing for now
+    //PLAY MODE
+    play.keyPressed();
   }
   
-  
+  //everything that happens every frame
+  void update(){
+    play.update();
+  }
   
 }

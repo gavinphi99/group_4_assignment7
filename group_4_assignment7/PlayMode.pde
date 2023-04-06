@@ -5,6 +5,7 @@ class PlayMode {
   Timer timer;
   int lives;
   boolean powerup;
+  ArrayList<Projectile> projectiles;
   
   PlayMode(ArrayList<Score> scoreList) {
     lives = 3; // change to positive integer for play testing
@@ -14,6 +15,8 @@ class PlayMode {
     player = new Player();
     end = new EndScreen(scoreList);
     timer = new Timer(Integer.MAX_VALUE, false);
+    
+    projectiles = new ArrayList<Projectile>();
   }
   
   void run() {
@@ -41,6 +44,15 @@ class PlayMode {
       end.update();
     }
     
+    //projectiles
+    //update all projectiles
+    if (projectiles.size() > 0){
+      for (int i = 0; i < projectiles.size(); i++) {
+        if (projectiles.get(i) != null){
+          projectiles.get(i).update();
+        }
+      }
+    }
   }
   
   void keyPressed() {
@@ -53,6 +65,13 @@ class PlayMode {
   
   void keyReleased() {
     player.keyReleased();
+    
+    //firing projectiles
+    if (key == ' '){
+      println("fire projectile");
+      Projectile p = new Projectile(player.x,player.y);
+      projectiles.add(p);
+    }
   }
   
 }

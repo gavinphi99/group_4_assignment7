@@ -6,14 +6,19 @@ class Player {
   float screenBottomMargin = 30;
   Sprite sprite;
   
+  int moveDirection;
+  
   //Constructor
   Player(){
     super();
     //setup
     x = width/2;
     y = height - screenBottomMargin;
-    speed = 2;
+    speed = 4;
+    
     //TODO: Set up sprite to be drawn instead of placeholder
+    
+    moveDirection = 0;
   }
   
   //displays the player ship on screen
@@ -27,6 +32,17 @@ class Player {
   //all behavior that runs every frame
   void update(){
     display();
+    
+    //move
+    if (moveDirection == 0) {
+      
+    }
+    else if (moveDirection == 1) {
+      moveRight();
+    }
+    else if (moveDirection == -1) {
+      moveLeft();
+    }
   }
   
   void keyPressed(){
@@ -35,13 +51,21 @@ class Player {
       //move left
       if (keyCode == LEFT) {
         println("move left");
-        moveLeft();
+        //moveLeft();
+        moveDirection = -1;
       }
       //move right
       else if (keyCode == RIGHT) {
         println("move right");
-        moveRight();
+        //moveRight();
+        moveDirection = 1;
       }
+    }
+  }
+  
+  void keyReleased(){
+    if (keyCode == LEFT || keyCode == RIGHT){
+      moveDirection = 0;
     }
   }
   

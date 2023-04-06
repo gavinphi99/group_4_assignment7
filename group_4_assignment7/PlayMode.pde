@@ -7,7 +7,7 @@ class PlayMode {
   boolean powerup;
   
   PlayMode(ArrayList<Score> scoreList) {
-    lives = 0; // change to positive integer for play testing
+    lives = 3; // change to positive integer for play testing
     powerup = false; // do something with this
     //println(scoreList);
     start = new StartScreen(scoreList);
@@ -49,6 +49,10 @@ class PlayMode {
     } else {
       player.keyPressed();
     }
+  }
+  
+  void keyReleased() {
+    player.keyReleased();
   }
   
 }

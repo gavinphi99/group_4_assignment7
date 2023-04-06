@@ -14,5 +14,8 @@ void draw() {
 
 void keyPressed() {
   play.keyPressed();
-  
+}
+
+void keyReleased() {
+  play.keyReleased();
 }

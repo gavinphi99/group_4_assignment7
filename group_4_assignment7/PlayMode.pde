@@ -7,8 +7,8 @@ class PlayMode {
   boolean powerup;
   
   PlayMode(ArrayList<Score> scoreList) {
-    lives = 0;
-    powerup = false;
+    lives = 0; // change to positive integer for play testing
+    powerup = false; // do something with this
     //println(scoreList);
     start = new StartScreen(scoreList);
     player = new Player();
@@ -16,11 +16,11 @@ class PlayMode {
     timer = new Timer(Integer.MAX_VALUE, false);
   }
   
-  
   void run() {
+    //TODO: main 
   }
   
-  //TODO: no more lives
+  //TODO: sub lives when enemies at bottom of screen
   boolean isDead() {
     if (lives == 0) {
       return true;

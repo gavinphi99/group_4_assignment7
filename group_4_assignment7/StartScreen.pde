@@ -5,7 +5,7 @@ class StartScreen extends ScoreScreens {
   
   StartScreen(ArrayList<Score> scoreList) {
     super(scoreList);
-    inputScore = 3.0;
+    inputScore = 6;
     inputPlayer = "";
     startGame = false;
     convert();
@@ -49,14 +49,6 @@ class StartScreen extends ScoreScreens {
       inputPlayer += "";
     }
     
-    //TODO: this probably shouldn't be contained here, but just testing for now
-    //PLAY MODE
-    //player.keyPressed();
   }
-  
-  //everything that happens every frame
-  //void update(){
-  //  player.update();
-  //}
   
 }

@@ -43,6 +43,7 @@ class ScoreScreens {
   void popStartScore() {
     scoreList.remove(0);
   }
+  
   void popEndScore() {
     scoreList.remove(scoreList.size()-1);
   }

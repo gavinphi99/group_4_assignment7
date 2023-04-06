@@ -5,12 +5,14 @@ class EndScreen extends ScoreScreens {
   EndScreen(ArrayList <Score> scoreList) {
     super(scoreList);
     on = true;
-    current = scoreList.get(0);
+    
+    
   }
   
   void update() {
     //println(scoreList);
     if (on) {
+      current = scoreList.get(0);
       checkScore();
       saveScore();
       on = false;

@@ -1,13 +1,14 @@
 class Player {
 
   //Fields
-  float x; float y; //the current x and y position of the player on screen
+  float x, y; //the current x and y position of the player on screen
   float speed;
   float screenBottomMargin = 30;
   Sprite sprite;
   
   //Constructor
   Player(){
+    super();
     //setup
     x = width/2;
     y = height - screenBottomMargin;
@@ -18,6 +19,7 @@ class Player {
   //displays the player ship on screen
   void display(){
     //TODO: Make it display a sprite instead of placeholder rectangle
+    fill(255);
     rectMode(CENTER);
     rect(x,y,20,20);
   }

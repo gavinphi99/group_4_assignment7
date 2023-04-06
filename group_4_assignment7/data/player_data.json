@@ -1,9 +1,22 @@
 [
-
-	{"player": "A", "score": 1.0}, 
-	{"player": "B", "score": 0.0}, 
-	{"player": "C", "score": 2.0}, 
-	{"player": "D", "score": 0.0}, 
-	{"player": "E", "score": 4.0}
-
+  {
+    "score": 4,
+    "player": "E"
+  },
+  {
+    "score": 3,
+    "player": "LEO"
+  },
+  {
+    "score": 3,
+    "player": "PHI"
+  },
+  {
+    "score": 3,
+    "player": "PHI"
+  },
+  {
+    "score": 2,
+    "player": "C"
+  }
 ]

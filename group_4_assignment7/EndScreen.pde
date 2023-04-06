@@ -1,32 +1,39 @@
 class EndScreen extends ScoreScreens {
-  PlayMode play;
+  boolean on;
   Score current;
   
-  EndScreen() {
-    super();
-    play = new PlayMode();
-    current = scoreList.get(scoreList.size()-1);
-    
+  EndScreen(ArrayList <Score> scoreList) {
+    super(scoreList);
+    on = true;
+    current = scoreList.get(0);
   }
   
   void update() {
-    if (play.isDead()) {
-      this.insertScore(scoreList.get(scoreList.size()-1));
+    //println(scoreList);
+    if (on) {
+      checkScore();
+      saveScore();
+      on = false;
     }
+    
+    display();
+    
   }
   
   void display() {
-    update();
+    
     textSize(20);
     fill(255);
     for (int i = 0; i < scoreList.size(); i++) {
-      text(scoreList.get(i).player + ": " + str(scoreList.get(i).score), 50, 50 + i * 30);
+      text(scoreList.get(i).player + ": " + str(scoreList.get(i).score), width/2, height/2 + i * 30);
     }
+    
     if (isHigh) {
-      text("HIGH SCORE!\n " + str(current.score) + "\nNICE JOB " + current.player, 25, 25);
+      text("HIGH SCORE!\n " + str(current.score) + "\nNICE JOB " + current.player, width/2, height/2 - 100);
     } else {
-      text("YOU LOSE!\n TRY AGAIN", 25, 25);
+      text("YOU LOSE!\n TRY AGAIN", width/2, height/2 - 100);
     }
+    
   }
   
 }

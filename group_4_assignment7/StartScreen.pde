@@ -1,35 +1,22 @@
 class StartScreen extends ScoreScreens {
   String inputPlayer;
   float inputScore;
-  Timer timer;
-  PlayMode play;
+  boolean startGame;
   
-  StartScreen() {
-    super();
-    inputScore = 0.0;
+  StartScreen(ArrayList<Score> scoreList) {
+    super(scoreList);
+    inputScore = 3.0;
     inputPlayer = "";
-    timer = new Timer(Integer.MAX_VALUE, false);
-    play = new PlayMode();
+    startGame = false;
+    convert();
   }
-  
-  boolean atStart() {
-    if (timer.start == 0) {
-      return true;
-    }
-    return false;
-  }
-  
-  
   
   void addPlayerData() {
-    scoreList.add(new Score(inputPlayer, inputScore));
+    scoreList.add(0, new Score(inputPlayer, inputScore));
+    //println(scoreList.get(scoreList.size()-1));
   }
   
-  void startPlay() {
-    timer.resume();
-    addPlayerData();
-    play.run();
-  }
+
   
   void display() {
     
@@ -49,14 +36,13 @@ class StartScreen extends ScoreScreens {
   }
   
   
-  
   void keyPressed() {
     println("start screen registered key pressed");
-    if (key == '\b') {
+    if (key == '\b' && inputPlayer.length() > 0) {
       inputPlayer = inputPlayer.substring(0, inputPlayer.length() - 1);
     } else if (keyCode == ENTER) {
-      startPlay();
-      
+      addPlayerData();
+      startGame = true;
     } else if (inputPlayer.length() < 3 && Character.isLetter(key)) {
         inputPlayer += Character.toUpperCase(key);
     } else {
@@ -65,12 +51,12 @@ class StartScreen extends ScoreScreens {
     
     //TODO: this probably shouldn't be contained here, but just testing for now
     //PLAY MODE
-    play.keyPressed();
+    //player.keyPressed();
   }
   
   //everything that happens every frame
-  void update(){
-    play.update();
-  }
+  //void update(){
+  //  player.update();
+  //}
   
 }

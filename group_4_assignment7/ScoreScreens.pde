@@ -1,4 +1,5 @@
 import java.util.Comparator;
+import java.util.Collections;
 
 class ScoreScreens {
   JSONArray infos;
@@ -6,11 +7,12 @@ class ScoreScreens {
   PFont font;
   boolean isHigh;
   boolean isTop;
+  boolean on;
 
-  ScoreScreens() {
+  ScoreScreens(ArrayList<Score> scoreList) {
     infos = loadJSONArray("player_data.json");
-    scoreList = new ArrayList<Score>();
-    convert();
+    this.scoreList = scoreList;
+    //println(scoreList);
     font = createFont("RetroGaming.ttf", 20);
     textFont(font);
     isHigh = false;
@@ -38,34 +40,41 @@ class ScoreScreens {
     }
   };
 
-  void popScore() {
+  void popStartScore() {
+    scoreList.remove(0);
+  }
+  void popEndScore() {
     scoreList.remove(scoreList.size()-1);
   }
 
-  void insertScore(Score scoreObj) {
-    int index = 0;
-    for (int i = 0; i < scoreList.size(); i++) {
-      if (scoreObj.score > scoreList.get(i).score) {
-        index = i + 1;
-      }
-    }
-    if (index == scoreList.size()) {
-      popScore();
+  void checkScore() {
+    float current = scoreList.get(0).score;
+    if (current <= scoreList.get(scoreList.size()-1).score) {
       isHigh = false;
       isTop = false;
-      
-    } else {
-      scoreList.add(index, scoreObj);
-      if (index == 0) {
+      popStartScore();
+    }
+    else {
+      scoreList.sort(comparator);
+      if (scoreList.get(0).score == current) {
         isHigh = true;
-      } else {
-        isHigh = false;
       }
       isTop = true;
-      
-      
+      popEndScore();
     }
-    
+  }
+  
+  void saveScore() {
+    saveJSONArray(new JSONArray(), "data/player_data.json");
+    println("here");
+    JSONArray new_infos = new JSONArray();
+    for (int i = 0; i < scoreList.size(); i++) {
+      JSONObject new_players = new JSONObject();
+      new_players.setFloat("score", scoreList.get(i).score);
+      new_players.setString("player", scoreList.get(i).player);   
+      new_infos.append(new_players);
+    }
+    saveJSONArray(new_infos, "data/player_data.json");
   }
   
 }

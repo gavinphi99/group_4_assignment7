@@ -3,7 +3,7 @@ class Player {
   //Fields
   float x, y; //the current x and y position of the player on screen
   float speed;
-  float screenBottomMargin = 30;
+  float screenBottomMargin = height / 16.66;
   Sprite sprite;
   
   int moveDirection;

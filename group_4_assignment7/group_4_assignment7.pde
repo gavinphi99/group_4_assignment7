@@ -9,7 +9,7 @@ void setup() {
 
 void draw() {
   background(0);
-  play.display();
+  play.run();
 }
 
 void keyPressed() {

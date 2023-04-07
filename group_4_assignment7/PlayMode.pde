@@ -2,11 +2,12 @@ class PlayMode {
   StartScreen start;
   Player player;
   EndScreen end;
-  Timer timer;
+  Timer timer, invaderTimer;
+  int timeInterval;
   int lives;
   boolean powerup;
   ArrayList<Projectile> projectiles;
-  ArrayList<Invader> invaders;
+  ArrayList<RectInvader> rectInvaders;
 
   PlayMode(ArrayList<Score> scoreList) {
     lives = 3; // change to positive integer for play testing
@@ -16,12 +17,15 @@ class PlayMode {
     player = new Player();
     end = new EndScreen(scoreList);
     timer = new Timer(Integer.MAX_VALUE, false);
+    timeInterval = 1000;
+    invaderTimer = new Timer(timeInterval, false);
 
     projectiles = new ArrayList<Projectile>();
-    invaders = new ArrayList<Invader>();
+    rectInvaders = new ArrayList<RectInvader>();
   }
 
   void run() {
+    invaderTimer.trigger();
     if (timer.start == 0) {
       start.display();
       if (start.startGame) {
@@ -59,14 +63,24 @@ class PlayMode {
 
   void invaderDisplay() {
     //timing of the invader release
-    if(millis() <20000){
-    
+    //local Variables
+    PVector pos;
+    PVector vel;
+    float currentTime = millis() - timer.start;
+    println(invaderTimer.isExecuted);
+    if(currentTime <20000 && invaderTimer.isExecuted){
+      println(1);
+      pos = new PVector((int)random(width), 0);
+      vel = new PVector(0, 1);
+      rectInvaders.add(new RectInvader(pos, vel, width / 12, height / 16, color(0, 255, 0), 20));
+      
+      invaderTimer.reset();
     }
     
-    if (invaders.size() > 0) {
-      for (int i = 0; i < invaders.size(); i++) {
-        if (invaders.get(i) != null) {
-          invaders.get(i).display();
+    if (rectInvaders.size() > 0) {
+      for (int i = 0; i < rectInvaders.size(); i++) {
+        if (rectInvaders.get(i) != null) {
+          rectInvaders.get(i).display();
         }
       }
     }

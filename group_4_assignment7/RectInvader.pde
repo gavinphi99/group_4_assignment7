@@ -9,6 +9,7 @@ class RectInvader extends Invader{
   }
   
   void drawShape(){
+    println("draws");
     fill(c);
     rectMode(CENTER);
     rect(pos.x, pos.y, w, h);

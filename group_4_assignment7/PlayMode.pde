@@ -57,7 +57,14 @@ class PlayMode {
     if (projectiles.size() > 0) {
       for (int i = 0; i < projectiles.size(); i++) {
         if (projectiles.get(i) != null) {
-          projectiles.get(i).update();
+          //if the projectile is still alive, update it
+          if (projectiles.get(i).alive){
+            projectiles.get(i).update();
+          }
+          //otherwise, remove it from the ArrayList
+          else {
+            projectiles.remove(i);
+          }
         }
       }
     }
@@ -66,7 +73,14 @@ class PlayMode {
     if (bigShots.size() > 0) {
       for (int i = 0; i < bigShots.size(); i++) {
         if (bigShots.get(i) != null) {
-          bigShots.get(i).update();
+          //if the projectile is still alive, update it
+          if (bigShots.get(i).alive){
+            bigShots.get(i).update();
+          }
+          //otherwise, remove it from the ArrayList
+          else {
+            bigShots.remove(i);
+          }
         }
       }
     }

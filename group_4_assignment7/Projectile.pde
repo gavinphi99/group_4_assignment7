@@ -3,15 +3,23 @@ class Projectile {
   float y;
   float speed;
   
+  boolean alive;
+  
   Projectile(float xIn, float yIn){
     x = xIn;
     y = yIn;
     speed = 4;
+    alive = true;
   }
   
   void update(){
     moveUp();
     display();
+    
+    //check if projectile has reached top of screen
+    if (y < 3) {
+      destroy();
+    }
   }
   
   void moveUp(){
@@ -26,6 +34,6 @@ class Projectile {
   }
   
   void destroy(){
-    println("shot destroyed");
+    alive = false;
   }
 }

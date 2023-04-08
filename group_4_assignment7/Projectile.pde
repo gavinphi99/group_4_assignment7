@@ -33,6 +33,7 @@ class Projectile {
     rect(x,y,5,5);
   }
   
+  //call to make the projectile disappear. happens after taking damage from an enemy or reaching top of screen
   void destroy(){
     alive = false;
   }

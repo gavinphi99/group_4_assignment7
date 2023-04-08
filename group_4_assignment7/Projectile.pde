@@ -24,4 +24,8 @@ class Projectile {
     rectMode(CENTER);
     rect(x,y,5,5);
   }
+  
+  void destroy(){
+    println("shot destroyed");
+  }
 }

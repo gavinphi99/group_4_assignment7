@@ -7,6 +7,7 @@ class PlayMode {
   int lives;
   boolean powerup;
   ArrayList<Projectile> projectiles;
+  ArrayList<BigShot> bigShots;
   ArrayList<RectInvader> rectInvaders;
 
   PlayMode(ArrayList<Score> scoreList) {
@@ -21,6 +22,7 @@ class PlayMode {
     invaderTimer = new Timer(timeInterval, false);
 
     projectiles = new ArrayList<Projectile>();
+    bigShots = new ArrayList<BigShot>();
     rectInvaders = new ArrayList<RectInvader>();
   }
 
@@ -51,11 +53,20 @@ class PlayMode {
   void projectileDisplay() {
 
     //projectiles
-    //update all projectiles
+    //update all standard projectiles
     if (projectiles.size() > 0) {
       for (int i = 0; i < projectiles.size(); i++) {
         if (projectiles.get(i) != null) {
           projectiles.get(i).update();
+        }
+      }
+    }
+    
+    //update all big shot projectiles
+    if (bigShots.size() > 0) {
+      for (int i = 0; i < bigShots.size(); i++) {
+        if (bigShots.get(i) != null) {
+          bigShots.get(i).update();
         }
       }
     }
@@ -102,6 +113,12 @@ class PlayMode {
       println("fire projectile");
       Projectile p = new Projectile(player.x, player.y);
       projectiles.add(p);
+    }
+    
+    if (keyCode == SHIFT) {
+      println("fire big shot");
+      BigShot b = new BigShot(player.x,player.y,3);
+      bigShots.add(b);
     }
   }
 }

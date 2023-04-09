@@ -18,7 +18,7 @@ class PlayMode {
     player = new Player();
     end = new EndScreen(scoreList);
     timer = new Timer(Integer.MAX_VALUE, false);
-    timeInterval = 1000;
+    timeInterval = 10000;
     invaderTimer = new Timer(timeInterval, false);
 
     projectiles = new ArrayList<Projectile>();
@@ -39,7 +39,7 @@ class PlayMode {
       end.update();
     }
     projectileDisplay();
-    invaderDisplay();
+    invaderMain();
   }
 
   //TODO: sub lives when enemies at bottom of screen
@@ -58,7 +58,7 @@ class PlayMode {
       for (int i = 0; i < projectiles.size(); i++) {
         if (projectiles.get(i) != null) {
           //if the projectile is still alive, update it
-          if (projectiles.get(i).alive){
+          if (projectiles.get(i).alive) {
             projectiles.get(i).update();
           }
           //otherwise, remove it from the ArrayList
@@ -68,13 +68,13 @@ class PlayMode {
         }
       }
     }
-    
+
     //update all big shot projectiles
     if (bigShots.size() > 0) {
       for (int i = 0; i < bigShots.size(); i++) {
         if (bigShots.get(i) != null) {
           //if the projectile is still alive, update it
-          if (bigShots.get(i).alive){
+          if (bigShots.get(i).alive) {
             bigShots.get(i).update();
           }
           //otherwise, remove it from the ArrayList
@@ -86,30 +86,55 @@ class PlayMode {
     }
   }
 
-  void invaderDisplay() {
+  void invaderMain() {
+    invaderTiming();
+    invaderScan();
+    
+  }
+
+  void invaderTiming() {
     //timing of the invader release
     //local Variables
     PVector pos;
     PVector vel;
     float currentTime = millis() - timer.start;
     println(invaderTimer.isExecuted);
-    if(currentTime <20000 && invaderTimer.isExecuted){
+    if (currentTime <40000 && invaderTimer.isExecuted) {
       println(1);
       pos = new PVector((int)random(width), 0);
       vel = new PVector(0, 1);
       rectInvaders.add(new RectInvader(pos, vel, width / 12, height / 16, color(0, 255, 0), 20));
-      
+
+      invaderTimer.reset();
+    } else if (currentTime <80000 && invaderTimer.isExecuted) {
+      println(1);
+      pos = new PVector((int)random(width), 0);
+      vel = new PVector(0, .5);
+      rectInvaders.add(new RectInvader(pos, vel, width / 12, height / 16, color(255, 0, 0), 40));
+
       invaderTimer.reset();
     }
-    
+  }
+  
+  //everything that should happen when looking at every single 
+  void invaderScan(){
     if (rectInvaders.size() > 0) {
       for (int i = 0; i < rectInvaders.size(); i++) {
         if (rectInvaders.get(i) != null) {
+          //display the invader
           rectInvaders.get(i).display();
+          
+          //register if they got hit
+          for(int j = 0; i <= projectiles.size(); j++){
+            //if the projectile hits the block
+            if(rectInvaders.get(i).wasHit()){
+              
+            }
+          }
         }
       }
     }
-  }
+  } 
 
   void keyPressed() {
     if (timer.start == 0) {
@@ -128,10 +153,10 @@ class PlayMode {
       Projectile p = new Projectile(player.x, player.y);
       projectiles.add(p);
     }
-    
-    if (keyCode == SHIFT) {
+
+    if (keyCode == ENTER) {
       println("fire big shot");
-      BigShot b = new BigShot(player.x,player.y,3);
+      BigShot b = new BigShot(player.x, player.y, 3);
       bigShots.add(b);
     }
   }

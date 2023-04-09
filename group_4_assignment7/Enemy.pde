@@ -12,7 +12,8 @@ class Invader{
   }
   
   void display(){
-    translate(vel.x, vel.y);
+    pos.x += vel.x;
+    pos.y += vel.y;
     drawShape();
   }
   
@@ -20,10 +21,9 @@ class Invader{
   void drawShape(){}
   
   //to be called in subclasses either based on ellipse or rect
-  /*
-  boolean hit(Bullet bullet){
+
+  boolean wasHit(Projectile bullet){
     health -= bullet.damage;
     return true;
   }
-*/
 }

@@ -9,7 +9,7 @@ class BigShot extends Projectile {
     currHealth = maxHealth;
     
     //speed is slower than standard shot
-    speed = 3;
+    speed = 1;
   }
   
   void display(){

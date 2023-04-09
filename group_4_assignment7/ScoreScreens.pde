@@ -40,34 +40,37 @@ class ScoreScreens {
     }
   };
 
-  void popStartScore() {
+  void popFirstScore() {
     scoreList.remove(0);
   }
   
-  void popEndScore() {
+  void popLastScore() {
     scoreList.remove(scoreList.size()-1);
   }
+  
+  
 
   void checkScore() {
     float current = scoreList.get(0).score;
     if (current <= scoreList.get(scoreList.size()-1).score) {
       isHigh = false;
       isTop = false;
-      popStartScore();
+      popFirstScore();
     }
     else {
       scoreList.sort(comparator);
+      println(scoreList.get(0).score, scoreList.get(1).score);
       if (scoreList.get(0).score == current) {
         isHigh = true;
       }
       isTop = true;
-      popEndScore();
+      popLastScore();
     }
   }
   
   void saveScore() {
     saveJSONArray(new JSONArray(), "data/player_data.json");
-    println("here");
+    //println("here");
     JSONArray new_infos = new JSONArray();
     for (int i = 0; i < scoreList.size(); i++) {
       JSONObject new_players = new JSONObject();

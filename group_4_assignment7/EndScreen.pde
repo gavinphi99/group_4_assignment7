@@ -6,7 +6,6 @@ class EndScreen extends ScoreScreens {
     super(scoreList);
     on = true;
     
-    
   }
   
   void update() {

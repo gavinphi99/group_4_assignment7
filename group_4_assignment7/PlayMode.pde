@@ -5,14 +5,13 @@ class PlayMode {
   Timer timer, invaderTimer;
   int timeInterval;
   int lives;
-  boolean powerup;
   ArrayList<Bullet> bullets;
+  float finalScore;
 
   ArrayList<RectInvader> rectInvaders;
 
   PlayMode(ArrayList<Score> scoreList) {
     lives = 3; // change to positive integer for play testing
-    powerup = false; // do something with this
     //println(scoreList);
     start = new StartScreen(scoreList);
     player = new Player();
@@ -23,6 +22,8 @@ class PlayMode {
 
     bullets = new ArrayList<Bullet>();
     rectInvaders = new ArrayList<RectInvader>();
+    
+    finalScore = 0;
   }
 
   void run() {
@@ -30,16 +31,22 @@ class PlayMode {
     if (timer.start == 0) {
       start.display();
       if (start.startGame) {
-        timer.resume();
+        timer.start = 1;
       }
     } else if (timer.start != 0 && !isDead()) {
       player.update();
+      timer.resume();
+      displayGUI();
+      bulletDisplay();
+      invaderMain();
+      
     } else if (timer.start != 0 && isDead()) {
+      timer.pause();
+      finalScore = round(timer.getStart()/1000);
+      scoreList.get(0).score = finalScore;
       end.update();
+      
     }
-
-    bulletDisplay();
-    invaderMain();
   }
 
   //TODO: sub lives when enemies at bottom of screen
@@ -48,6 +55,14 @@ class PlayMode {
       return true;
     }
     return false;
+  }
+  
+  void displayGUI() {
+    fill(255);
+    textAlign(CENTER, CENTER);
+    textSize(20);
+    text("SCORE: " + str(round(timer.getStart()/1000)), width - 100, 25);
+    text("LIVES: " + str(lives), 75, 25);
   }
 
   void bulletDisplay() {
@@ -81,7 +96,7 @@ class PlayMode {
     PVector pos;
     PVector vel;
     float currentTime = millis() - timer.start;
-    if (currentTime <40000 && invaderTimer.isExecuted) {
+    if (currentTime < 40000 && invaderTimer.isExecuted) {
       pos = new PVector((int)random(width), 0);
       vel = new PVector(0, 1);
       rectInvaders.add(new RectInvader(pos, vel, width / 12, height / 16, color(0, 255, 0), 20));

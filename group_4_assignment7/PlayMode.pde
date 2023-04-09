@@ -6,7 +6,7 @@ class PlayMode {
   int timeInterval;
   int lives;
   boolean powerup;
-  ArrayList<Projectile> projectiles;
+  ArrayList<Bullet> bullets;
   ArrayList<BigShot> bigShots;
   ArrayList<RectInvader> rectInvaders;
 
@@ -21,8 +21,7 @@ class PlayMode {
     timeInterval = 1000;
     invaderTimer = new Timer(timeInterval, false);
 
-    projectiles = new ArrayList<Projectile>();
-    bigShots = new ArrayList<BigShot>();
+    bullets = new ArrayList<Bullet>();
     rectInvaders = new ArrayList<RectInvader>();
   }
 
@@ -38,7 +37,7 @@ class PlayMode {
     } else if (timer.start != 0 && isDead()) {
       end.update();
     }
-    projectileDisplay();
+    bulletDisplay();
     invaderDisplay();
   }
 
@@ -50,36 +49,20 @@ class PlayMode {
     return false;
   }
 
-  void projectileDisplay() {
+  void bulletDisplay() {
 
-    //projectiles
-    //update all standard projectiles
-    if (projectiles.size() > 0) {
-      for (int i = 0; i < projectiles.size(); i++) {
-        if (projectiles.get(i) != null) {
-          //if the projectile is still alive, update it
-          if (projectiles.get(i).alive){
-            projectiles.get(i).update();
+    //bullets
+    //update all standard bullets
+    if (bullets.size() > 0) {
+      for (int i = 0; i < bullets.size(); i++) {
+        if (bullets.get(i) != null) {
+          //if the bullet is still alive, update it
+          if (bullets.get(i).alive){
+            bullets.get(i).update();
           }
           //otherwise, remove it from the ArrayList
           else {
-            projectiles.remove(i);
-          }
-        }
-      }
-    }
-    
-    //update all big shot projectiles
-    if (bigShots.size() > 0) {
-      for (int i = 0; i < bigShots.size(); i++) {
-        if (bigShots.get(i) != null) {
-          //if the projectile is still alive, update it
-          if (bigShots.get(i).alive){
-            bigShots.get(i).update();
-          }
-          //otherwise, remove it from the ArrayList
-          else {
-            bigShots.remove(i);
+            bullets.remove(i);
           }
         }
       }
@@ -122,17 +105,17 @@ class PlayMode {
   void keyReleased() {
     player.keyReleased();
 
-    //firing projectiles
+    //firing bullets
     if (key == ' ') {
-      println("fire projectile");
-      Projectile p = new Projectile(player.x, player.y);
-      projectiles.add(p);
+      println("fire bullet");
+      Bullet p = new Bullet(player.x, player.y, BulletType.SMALL);
+      bullets.add(p);
     }
     
     if (keyCode == SHIFT) {
       println("fire big shot");
-      BigShot b = new BigShot(player.x,player.y,3);
-      bigShots.add(b);
+      Bullet b = new Bullet(player.x,player.y, BulletType.BIG);
+      bullets.add(b);
     }
   }
 }

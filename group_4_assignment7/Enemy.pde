@@ -21,9 +21,9 @@ class Invader{
   void drawShape(){}
   
   //to be called in subclasses either based on ellipse or rect
-
+  
   boolean wasHit(Projectile bullet){
-    health -= bullet.damage;
+    //health -= bullet.damage;
     return true;
   }
 }

@@ -5,6 +5,7 @@ class Player {
   float speed;
   float screenBottomMargin = height / 16.66;
   Sprite sprite;
+  Timer timer;
   
   int moveDirection;
   
@@ -16,17 +17,25 @@ class Player {
     y = height - screenBottomMargin;
     speed = 4;
     
-    //TODO: Set up sprite to be drawn instead of placeholder
+    //TODO: Fix sprite flickering
+    sprite = new Sprite("sprite_spaceship", ".png", x, y, 57.4, 42.63, 2, true, new Timer(100, true));
     
     moveDirection = 0;
   }
   
   //displays the player ship on screen
   void display(){
-    //TODO: Make it display a sprite instead of placeholder rectangle
+    //placeholder
+    /*
     fill(255);
     rectMode(CENTER);
     rect(x,y,20,20);
+    */
+    
+    //draw sprite
+    sprite.setX(x);
+    sprite.setY(y);
+    sprite.display();
   }
   
   //all behavior that runs every frame

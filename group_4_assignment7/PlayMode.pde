@@ -7,7 +7,6 @@ class PlayMode {
   int lives;
   ArrayList<Bullet> bullets;
   float finalScore;
-  float startTime;
 
   ArrayList<RectInvader> rectInvaders;
 
@@ -36,7 +35,6 @@ class PlayMode {
         timer.start = 1;
       }
     } else if (timer.start != 0 && !isDead()) {
-      startTimer.pause();
       player.update();
       timer.resume();
       bulletDisplay();

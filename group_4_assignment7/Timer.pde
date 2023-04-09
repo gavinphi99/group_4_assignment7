@@ -24,6 +24,10 @@ class Timer {
     return start;
   }
   
+  float getPause() {
+    return pauseTime;
+  }
+  
   void setInterval(int _interval){
     interval = _interval;
   }
@@ -52,7 +56,7 @@ class Timer {
   }
   
   //called with specified key pressing event
-  void pause(){
+  void pause() {
     isPaused = true;
     pauseTime = millis() - start;
   }

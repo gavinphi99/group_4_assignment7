@@ -7,7 +7,7 @@ class PlayMode {
   int lives;
   boolean powerup;
   ArrayList<Bullet> bullets;
-  ArrayList<BigShot> bigShots;
+
   ArrayList<RectInvader> rectInvaders;
 
   PlayMode(ArrayList<Score> scoreList) {
@@ -18,7 +18,7 @@ class PlayMode {
     player = new Player();
     end = new EndScreen(scoreList);
     timer = new Timer(Integer.MAX_VALUE, false);
-    timeInterval = 1000;
+    timeInterval = 5000;
     invaderTimer = new Timer(timeInterval, false);
 
     bullets = new ArrayList<Bullet>();
@@ -81,16 +81,13 @@ class PlayMode {
     PVector pos;
     PVector vel;
     float currentTime = millis() - timer.start;
-    println(invaderTimer.isExecuted);
     if (currentTime <40000 && invaderTimer.isExecuted) {
-      println(1);
       pos = new PVector((int)random(width), 0);
       vel = new PVector(0, 1);
       rectInvaders.add(new RectInvader(pos, vel, width / 12, height / 16, color(0, 255, 0), 20));
 
       invaderTimer.reset();
     } else if (currentTime <80000 && invaderTimer.isExecuted) {
-      println(1);
       pos = new PVector((int)random(width), 0);
       vel = new PVector(0, .5);
       rectInvaders.add(new RectInvader(pos, vel, width / 12, height / 16, color(255, 0, 0), 40));
@@ -105,13 +102,27 @@ class PlayMode {
       for (int i = 0; i < rectInvaders.size(); i++) {
         if (rectInvaders.get(i) != null) {
           //display the invader
-          rectInvaders.get(i).display();
+          rectInvaders.get(i).update();
 
           //register if they got hit
-          for (int j = 0; i <= bullets.size(); j++) {
-            //if the projectile hits the block
-            //if(rectInvaders.get(i).wasHit()){
+          if (bullets.size() > 0) {
+            for (int j = 0; j < bullets.size(); j++) {
+              //if the projectile hits the block
+              if (rectInvaders.get(i).wasHit(bullets.get(j))) {
+                rectInvaders.get(i).health -= bullets.get(j).damage;
+                bullets.remove(j);
+              }
+            }
           }
+        }
+        //check if invaders are dead
+        if (rectInvaders.size() > 0 && rectInvaders.get(i).isDead()) {
+          rectInvaders.remove(i);
+        }
+        //check if invaders reached the end
+        if (rectInvaders.size() > 0 && rectInvaders.get(i).reachEnd()) {
+          rectInvaders.remove(i);
+          lives -= 1;
         }
       }
     }

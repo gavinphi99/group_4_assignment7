@@ -8,11 +8,24 @@ class RectInvader extends Invader{
     h = _h;
   }
   
-  void drawShape(){
+  void update(){
     println("draws");
     fill(c);
     rectMode(CENTER);
+    pos.x += vel.x;
+    pos.y += vel.y;
     rect(pos.x, pos.y, w, h);
   }
+  
+  //see if bullet position overlaps with the shape of the rectangle
+  boolean wasHit(Bullet bullet){
+    boolean xHit = bullet.x >= pos.x - w / 2 && bullet.x <= pos.x + w / 2;
+    boolean yHit = bullet.y >= pos.y - h / 2 && bullet.y <= pos.y + h / 2;
+    
+    return xHit && yHit;
+  }
+  
+
+  
   
 }

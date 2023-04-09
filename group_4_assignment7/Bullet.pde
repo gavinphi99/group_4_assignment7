@@ -25,7 +25,7 @@ class Bullet {
       damage = smallDamage;
     }
     else if (type == BulletType.BIG){
-      speed = 2;
+      speed = 1;
       maxHealth = 3;
       damage = bigDamage;
     }

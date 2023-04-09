@@ -22,8 +22,11 @@ class Invader{
   
   //to be called in subclasses either based on ellipse or rect
   
-  boolean wasHit(Projectile bullet){
-    //health -= bullet.damage;
-    return true;
+  boolean reachEnd(){
+    return pos.y >= height;
+  }
+  
+  boolean isDead(){
+    return health <= 0;
   }
 }

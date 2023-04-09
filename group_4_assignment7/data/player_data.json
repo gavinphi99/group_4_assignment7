@@ -1,5 +1,6 @@
 [
   {
+<<<<<<< HEAD
     "score": 33,
     "player": "LEO"
   },
@@ -18,5 +19,25 @@
   {
     "score": 23,
     "player": "YY"
+=======
+    "score": 118,
+    "player": "LEO"
+  },
+  {
+    "score": 109,
+    "player": "LEO"
+  },
+  {
+    "score": 98,
+    "player": "LEO"
+  },
+  {
+    "score": 68,
+    "player": "LEO"
+  },
+  {
+    "score": 55,
+    "player": "LOE"
+>>>>>>> 863645365ca3e6560a3dd9e093da2e73839768aa
   }
 ]

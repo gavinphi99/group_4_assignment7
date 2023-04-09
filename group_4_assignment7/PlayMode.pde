@@ -2,11 +2,12 @@ class PlayMode {
   StartScreen start;
   Player player;
   EndScreen end;
-  Timer timer, invaderTimer;
+  Timer timer, startTimer, invaderTimer;
   int timeInterval;
   int lives;
   ArrayList<Bullet> bullets;
   float finalScore;
+  float startTime;
 
   ArrayList<RectInvader> rectInvaders;
 
@@ -22,7 +23,8 @@ class PlayMode {
 
     bullets = new ArrayList<Bullet>();
     rectInvaders = new ArrayList<RectInvader>();
-    
+    startTimer = new Timer(Integer.MAX_VALUE, false);
+    startTimer.resume();
     finalScore = 0;
   }
 
@@ -34,7 +36,9 @@ class PlayMode {
         timer.start = 1;
       }
     } else if (timer.start != 0 && !isDead()) {
+      startTimer.pause();
       player.update();
+      
       timer.resume();
       bulletDisplay();
       invaderMain();
@@ -61,7 +65,7 @@ class PlayMode {
     fill(255);
     textAlign(CENTER, CENTER);
     textSize(20);
-    text("SCORE: " + str(round(timer.getStart()/1000)), width - 100, 25);
+    text("SCORE: " + str(round(timer.getStart()/1000) - round(startTimer.getStart()/1000)), width - 100, 25);
     text("LIVES: " + str(lives), 75, 25);
   }
 
@@ -102,7 +106,7 @@ class PlayMode {
       rectInvaders.add(new RectInvader(pos, vel, width / 12, height / 16, color(0, 255, 0), 20));
 
       invaderTimer.reset();
-    } else if (currentTime <80000 && invaderTimer.isExecuted) {
+    } else if (currentTime < 80000 && invaderTimer.isExecuted) {
       pos = new PVector((int)random(width), 0);
       vel = new PVector(0, .5);
       rectInvaders.add(new RectInvader(pos, vel, width / 12, height / 16, color(255, 0, 0), 40));
@@ -157,13 +161,13 @@ class PlayMode {
 
     //firing bullets
     if (key == ' ') {
-      println("fire bullet");
+      //println("fire bullet");
       Bullet p = new Bullet(player.x, player.y, BulletType.SMALL);
       bullets.add(p);
     }
 
     if (keyCode == SHIFT) {
-      println("fire big shot");
+      //println("fire big shot");
       Bullet b = new Bullet(player.x, player.y, BulletType.BIG);
       bullets.add(b);
     }

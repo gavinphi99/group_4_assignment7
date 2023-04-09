@@ -1,4 +1,4 @@
-class Timer{
+class Timer {
   //some functionality from this class was inspired from the in-class example on 3/24
   //Written by Leonardo Guardione
   
@@ -58,7 +58,7 @@ class Timer{
   }
   
   //called with specified key pressing event
-  void resume(){
+  void resume() {
     isPaused = false;
     start = millis() - pauseTime;
   }

@@ -1,6 +1,7 @@
 class EndScreen extends ScoreScreens {
   boolean on;
   float highScore;
+  Score current;
   EndScreen(ArrayList <Score> scoreList) {
     super(scoreList);
     on = true;
@@ -9,6 +10,7 @@ class EndScreen extends ScoreScreens {
   void update() {
     //println(scoreList);
     if (on) {
+      current = scoreList.get(0);
       checkScore();
       highScore = scoreList.get(0).score;
       saveScore();

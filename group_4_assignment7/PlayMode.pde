@@ -38,7 +38,6 @@ class PlayMode {
     } else if (timer.start != 0 && !isDead()) {
       startTimer.pause();
       player.update();
-      
       timer.resume();
       bulletDisplay();
       invaderMain();
@@ -46,7 +45,7 @@ class PlayMode {
       
     } else if (timer.start != 0 && isDead()) {
       timer.pause();
-      finalScore = round(timer.getStart()/1000);
+      finalScore = round(timer.getStart()/1000) - round(startTimer.getStart()/1000);
       scoreList.get(0).score = finalScore;
       end.update();
       
@@ -101,13 +100,13 @@ class PlayMode {
     PVector vel;
     float currentTime = millis() - timer.start;
     if (currentTime < 40000 && invaderTimer.isExecuted) {
-      pos = new PVector((int)random(width), 0);
+      pos = new PVector((int)random(width/12, width - width/12), 0);
       vel = new PVector(0, 1);
       rectInvaders.add(new RectInvader(pos, vel, width / 12, height / 16, color(0, 255, 0), 20));
 
       invaderTimer.reset();
     } else if (currentTime < 80000 && invaderTimer.isExecuted) {
-      pos = new PVector((int)random(width), 0);
+      pos = new PVector((int)random(width/12, width - width/12), 0);
       vel = new PVector(0, .5);
       rectInvaders.add(new RectInvader(pos, vel, width / 12, height / 16, color(255, 0, 0), 40));
 
@@ -166,7 +165,7 @@ class PlayMode {
       bullets.add(p);
     }
 
-    if (keyCode == SHIFT) {
+    if (keyCode == CONTROL) {
       //println("fire big shot");
       Bullet b = new Bullet(player.x, player.y, BulletType.BIG);
       bullets.add(b);

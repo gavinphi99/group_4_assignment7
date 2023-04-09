@@ -10,8 +10,8 @@ class Bullet {
   int maxHealth;
   int currHealth;
   
-  float smallDamage = 1;
-  float bigDamage = 3;
+  float smallDamage = 3;
+  float bigDamage = 5;
   
   Bullet(float xIn, float yIn, BulletType typeIn){
     x = xIn;

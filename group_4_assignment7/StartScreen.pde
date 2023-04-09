@@ -37,7 +37,7 @@ class StartScreen extends ScoreScreens {
     text("CONTROLS", width/2, height/2 + 125);
     text("LEFT KEY - LEFT", width/2 - 100, height/2 + 150);
     text("RIGHT KEY - RIGHT", width/2 + 100, height/2 + 150);
-    text("SHIFT - BIG SHOT", width/2 - 100, height/2 + 175);
+    text("CTRL - BIG SHOT", width/2 - 100, height/2 + 175);
     text("SPACE - SMALL SHOT", width/2 + 100, height/2 + 175);
       
   }

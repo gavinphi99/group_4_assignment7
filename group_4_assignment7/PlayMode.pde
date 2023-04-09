@@ -36,9 +36,9 @@ class PlayMode {
     } else if (timer.start != 0 && !isDead()) {
       player.update();
       timer.resume();
-      displayGUI();
       bulletDisplay();
       invaderMain();
+      displayGUI();
       
     } else if (timer.start != 0 && isDead()) {
       timer.pause();

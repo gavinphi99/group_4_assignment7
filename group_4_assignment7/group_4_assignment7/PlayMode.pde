@@ -98,7 +98,7 @@ class PlayMode {
       float currentTime = millis() - startTime;
       //set velocities
       //only straight down
-      } if (currentTime < 600000) {
+      if (currentTime < 600000) {
         vel = new PVector(random(-1, 1), 1);
 
         //insane mode

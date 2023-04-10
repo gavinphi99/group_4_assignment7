@@ -1,4 +1,4 @@
-class Timer{
+class Timer {
   //some functionality from this class was inspired from the in-class example on 3/24
   //Written by Leonardo Guardione
   
@@ -22,6 +22,10 @@ class Timer{
   
   float getStart(){
     return start;
+  }
+  
+  float getPause() {
+    return pauseTime;
   }
   
   void setInterval(int _interval){
@@ -52,13 +56,13 @@ class Timer{
   }
   
   //called with specified key pressing event
-  void pause(){
+  void pause() {
     isPaused = true;
     pauseTime = millis() - start;
   }
   
   //called with specified key pressing event
-  void resume(){
+  void resume() {
     isPaused = false;
     start = millis() - pauseTime;
   }

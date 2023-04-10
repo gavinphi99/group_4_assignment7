@@ -8,6 +8,8 @@ class ScoreScreens {
   boolean isHigh;
   boolean isTop;
   boolean on;
+  Score current;
+  
 
   ScoreScreens(ArrayList<Score> scoreList) {
     infos = loadJSONArray("player_data.json");
@@ -51,16 +53,17 @@ class ScoreScreens {
   
 
   void checkScore() {
-    float current = scoreList.get(0).score;
-    if (current <= scoreList.get(scoreList.size()-1).score) {
+    current = scoreList.get(0);
+    //println(current.score);
+    if (current.score <= scoreList.get(scoreList.size()-1).score) {
       isHigh = false;
       isTop = false;
       popFirstScore();
     }
     else {
       scoreList.sort(comparator);
-      println(scoreList.get(0).score, scoreList.get(1).score);
-      if (scoreList.get(0).score == current) {
+
+      if (scoreList.get(0).score == current.score) {
         isHigh = true;
       }
       isTop = true;

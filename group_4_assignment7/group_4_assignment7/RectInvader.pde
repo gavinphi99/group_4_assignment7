@@ -9,16 +9,23 @@ class RectInvader extends Invader{
   }
   
   void update(){
-    println("draws");
-    fill(c);
-    rectMode(CENTER);
-    pos.x += vel.x;
-    pos.y += vel.y;
+    //println("draws");
     
-    if(pos.x > width || pos.x < 0){
-      vel.x = -vel.x;
-    }
-    rect(pos.x, pos.y, w, h);
+      fill(c);
+      rectMode(CENTER);
+      pos.x += vel.x;
+      pos.y += vel.y;
+      rect(pos.x, pos.y, w, h);
+      
+      if(pos.x > width || pos.x < 0){
+        vel.x = -vel.x;
+      }
+      
+      textSize(10);
+      
+      fill(255);
+      text(str(health), pos.x, pos.y - 25);
+    
   }
   
   //see if bullet position overlaps with the shape of the rectangle

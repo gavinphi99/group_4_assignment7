@@ -2,7 +2,7 @@ class PlayMode {
   StartScreen start;
   Player player;
   EndScreen end;
-  Timer timer, invaderTimer;
+  Timer timer, startTimer, invaderTimer;
   int timeInterval;
   int lives;
   ArrayList<Bullet> bullets;
@@ -13,18 +13,19 @@ class PlayMode {
 
   PlayMode(ArrayList<Score> scoreList) {
     lives = 3; // change to positive integer for play testing
-    //println(scoreList);
     start = new StartScreen(scoreList);
     player = new Player();
     end = new EndScreen(scoreList);
     timer = new Timer(Integer.MAX_VALUE, false);
     timeInterval = 5000;
     invaderTimer = new Timer(timeInterval, false);
-    startTime = 0;
+
     bullets = new ArrayList<Bullet>();
     rectInvaders = new ArrayList<RectInvader>();
-
+    startTimer = new Timer(Integer.MAX_VALUE, false);
+    startTimer.resume();
     finalScore = 0;
+    startTime = 0;
   }
 
   void run() {
@@ -37,12 +38,12 @@ class PlayMode {
     } else if (timer.start != 0 && !isDead()) {
       player.update();
       timer.resume();
-      displayGUI();
       bulletDisplay();
       invaderMain();
+      displayGUI();
     } else if (timer.start != 0 && isDead()) {
       timer.pause();
-      finalScore = round(timer.getStart()/1000);
+      finalScore = round(timer.getStart()/1000) - round(startTimer.getStart()/1000);
       scoreList.get(0).score = finalScore;
       end.update();
     }
@@ -60,7 +61,7 @@ class PlayMode {
     fill(255);
     textAlign(CENTER, CENTER);
     textSize(20);
-    text("SCORE: " + str(round(timer.getStart()/1000)), width - 100, 25);
+    text("SCORE: " + str(round(timer.getStart()/1000) - round(startTimer.getStart()/1000)), width - 100, 25);
     text("LIVES: " + str(lives), 75, 25);
   }
 
@@ -89,47 +90,52 @@ class PlayMode {
     invaderScan();
   }
 
+  PVector vel;
   void invaderTiming() {
     //timing of the invader release
     //local Variables
-    float currentTime = millis() - startTime;
-    println(currentTime);
-
-
-    //spawning enemies
     if (invaderTimer.isExecuted) {
-      invaderSpawn(new PVector(0, 1), 10, color(0,255,0));
+      float currentTime = millis() - startTime;
+      //set velocities
+      //only straight down
+      } if (currentTime < 600000) {
+        vel = new PVector(random(-1, 1), 1);
 
-      //super enemies
-      if (currentTime > 15000) {
-        invaderSpawn(new PVector(0, .5), 25, color(255, 0, 0));
+        //insane mode
+      } else {
+        vel = new PVector(random(-2, 2), random(1, 2));
       }
-      //horizontal direction
-      if (currentTime > 30000){
-        invaderSpawn(new PVector(random(-1, 1), .5), 15, color(0, 0, 255));
+
+
+      invaderSpawn(vel, 25, color(0, 255, 0));
+      invaderTimer.reset();
+
+      if (currentTime > 40000) {
+        invaderSpawn(vel, 50, color(255, 0, 0));
+        invaderTimer.reset();
       }
     }
   }
 
   void invaderSpawn(PVector vel, int health, color c) {
-    PVector pos = new PVector((int)random(width), 0);
+    PVector pos = new PVector((int)random(width/12, width - width/12), 0);
     rectInvaders.add(new RectInvader(pos, vel, width / 12, height / 16, c, health));
-    invaderTimer.reset();
   }
 
   //everything that should happen when looking at every single 
   void invaderScan() {
     if (rectInvaders.size() > 0) {
-
-      //set start time to the time when the first invader spawns to set level progression
-      if (startTime == 0) {
-        startTime = millis();
-      }
-
       for (int i = 0; i < rectInvaders.size(); i++) {
+
+        //start the timer when the game starts
+
+        if (startTime == 0) {
+          startTime = millis();
+        }
         if (rectInvaders.get(i) != null) {
           //display the invader
           rectInvaders.get(i).update();
+
           //register if they got hit
           if (bullets.size() > 0) {
             for (int j = 0; j < bullets.size(); j++) {
@@ -172,7 +178,7 @@ class PlayMode {
       bullets.add(p);
     }
 
-    if (keyCode == SHIFT) {
+    if (keyCode == CONTROL) {
       Bullet b = new Bullet(player.x, player.y, BulletType.BIG);
       bullets.add(b);
     }

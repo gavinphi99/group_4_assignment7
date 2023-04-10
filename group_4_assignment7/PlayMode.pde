@@ -7,6 +7,7 @@ class PlayMode {
   int lives;
   ArrayList<Bullet> bullets;
   float finalScore;
+  float startTime;
 
   ArrayList<RectInvader> rectInvaders;
 
@@ -19,10 +20,10 @@ class PlayMode {
     timer = new Timer(Integer.MAX_VALUE, false);
     timeInterval = 5000;
     invaderTimer = new Timer(timeInterval, false);
-
+    startTime = 0;
     bullets = new ArrayList<Bullet>();
     rectInvaders = new ArrayList<RectInvader>();
-    
+
     finalScore = 0;
   }
 
@@ -39,13 +40,11 @@ class PlayMode {
       displayGUI();
       bulletDisplay();
       invaderMain();
-      
     } else if (timer.start != 0 && isDead()) {
       timer.pause();
       finalScore = round(timer.getStart()/1000);
       scoreList.get(0).score = finalScore;
       end.update();
-      
     }
   }
 
@@ -56,7 +55,7 @@ class PlayMode {
     }
     return false;
   }
-  
+
   void displayGUI() {
     fill(255);
     textAlign(CENTER, CENTER);
@@ -93,32 +92,44 @@ class PlayMode {
   void invaderTiming() {
     //timing of the invader release
     //local Variables
-    PVector pos;
-    PVector vel;
-    float currentTime = millis() - timer.start;
-    if (currentTime < 40000 && invaderTimer.isExecuted) {
-      pos = new PVector((int)random(width), 0);
-      vel = new PVector(0, 1);
-      rectInvaders.add(new RectInvader(pos, vel, width / 12, height / 16, color(0, 255, 0), 20));
+    float currentTime = millis() - startTime;
+    println(currentTime);
 
-      invaderTimer.reset();
-    } else if (currentTime <80000 && invaderTimer.isExecuted) {
-      pos = new PVector((int)random(width), 0);
-      vel = new PVector(0, .5);
-      rectInvaders.add(new RectInvader(pos, vel, width / 12, height / 16, color(255, 0, 0), 40));
 
-      invaderTimer.reset();
+    //spawning enemies
+    if (invaderTimer.isExecuted) {
+      invaderSpawn(new PVector(0, 1), 10, color(0,255,0));
+
+      //super enemies
+      if (currentTime > 15000) {
+        invaderSpawn(new PVector(0, .5), 25, color(255, 0, 0));
+      }
+      //horizontal direction
+      if (currentTime > 30000){
+        invaderSpawn(new PVector(random(-1, 1), .5), 15, color(0, 0, 255));
+      }
     }
+  }
+
+  void invaderSpawn(PVector vel, int health, color c) {
+    PVector pos = new PVector((int)random(width), 0);
+    rectInvaders.add(new RectInvader(pos, vel, width / 12, height / 16, c, health));
+    invaderTimer.reset();
   }
 
   //everything that should happen when looking at every single 
   void invaderScan() {
     if (rectInvaders.size() > 0) {
+
+      //set start time to the time when the first invader spawns to set level progression
+      if (startTime == 0) {
+        startTime = millis();
+      }
+
       for (int i = 0; i < rectInvaders.size(); i++) {
         if (rectInvaders.get(i) != null) {
           //display the invader
           rectInvaders.get(i).update();
-
           //register if they got hit
           if (bullets.size() > 0) {
             for (int j = 0; j < bullets.size(); j++) {
@@ -131,11 +142,11 @@ class PlayMode {
           }
         }
         //check if invaders are dead
-        if (rectInvaders.size() > 0 && rectInvaders.get(i).isDead()) {
+        if (rectInvaders.size() > i && rectInvaders.get(i).isDead()) {
           rectInvaders.remove(i);
         }
         //check if invaders reached the end
-        if (rectInvaders.size() > 0 && rectInvaders.get(i).reachEnd()) {
+        if (rectInvaders.size() > i && rectInvaders.get(i).reachEnd()) {
           rectInvaders.remove(i);
           lives -= 1;
         }
@@ -157,13 +168,11 @@ class PlayMode {
 
     //firing bullets
     if (key == ' ') {
-      println("fire bullet");
       Bullet p = new Bullet(player.x, player.y, BulletType.SMALL);
       bullets.add(p);
     }
 
     if (keyCode == SHIFT) {
-      println("fire big shot");
       Bullet b = new Bullet(player.x, player.y, BulletType.BIG);
       bullets.add(b);
     }

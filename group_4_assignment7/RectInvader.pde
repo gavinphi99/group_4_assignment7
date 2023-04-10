@@ -14,6 +14,10 @@ class RectInvader extends Invader{
     rectMode(CENTER);
     pos.x += vel.x;
     pos.y += vel.y;
+    
+    if(pos.x > width || pos.x < 0){
+      vel.x = -vel.x;
+    }
     rect(pos.x, pos.y, w, h);
   }
   

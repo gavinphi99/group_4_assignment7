@@ -1,0 +1,3 @@
+enum BulletType {
+  SMALL, BIG
+};
